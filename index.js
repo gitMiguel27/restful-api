@@ -58,6 +58,17 @@ app.patch('/api/users/:id', (req, res) => {
         else next();
 });
 
+app.delete("/api/users/:id", (req, res, next) => {
+    const user = users.find((u, i) => {
+      if (u.id == req.params.id) {
+        users.splice(i, 1);
+        return true;
+      }
+    });
+    if (user) res.json(user);
+    else next();
+});
+
 // get all posts
 app.get('/api/posts', (req, res) => {
     res.json(posts);
