@@ -27,7 +27,7 @@ app.post('/api/users', (req, res) => {
         };
 
         const user = {
-            id: users[user.length - 1].id + 1,
+            id: users[users.length - 1].id + 1,
             name: req.body.name,
             username: req.body.username,
             email: req.body.email
@@ -42,6 +42,20 @@ app.get('/api/users/:id', (req, res, next) => {
     const user = users.find((u) => u.id == req.params.id);
     if(user) res.json(user)
         else next()
+});
+
+app.patch('/api/users/:id', (req, res) => {
+    const user = users.find((u, i) => {
+        if(u.id == req.params.id) {
+            for(const key in req.body) {
+                users[i][key] = req.body[key];
+            };
+        };
+        return true;
+    });
+
+    if(user) res.json(user)
+        else next();
 });
 
 // get all posts
